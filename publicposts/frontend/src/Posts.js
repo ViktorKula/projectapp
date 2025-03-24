@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import PostService from './PostService';
+import React, {Component} from "react";
+import PostService from "./PostService";
 
-const posstService = new PostService();
+const postService = new PostService();
 
 export default class Posts extends Component {
-    constructor(props) {
+    constructor(props){
         super(props)
         this.state = {
             data : [],
@@ -19,6 +19,7 @@ export default class Posts extends Component {
         this.setState({inputValue: event.target.value});
     }
 
+
     handleSubmit(event) {
         postService.createPost({'text' : this.state.inputValue});
         this.getData()
@@ -28,7 +29,7 @@ export default class Posts extends Component {
     getData(){
         postService.getPosts().then(result => {
             this.setState({data: result.data})
-    	  })
+        })
     }
 
     componentDidMount(){
@@ -39,6 +40,11 @@ export default class Posts extends Component {
         postService.setLikePost(post.id)
         post.likesCount += 1
         this.forceUpdate()
+    }
+
+    deletePost(post) {
+        postService.deletePost(post.id)
+        this.getData()
     }
 
     render() {
